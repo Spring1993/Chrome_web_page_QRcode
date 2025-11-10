@@ -61,64 +61,92 @@ function getFaviconUrl(url) {
  * @param {string} faviconUrl - 网站的favicon URL
  */
 async function generateQRCode(url, faviconUrl) {
-    const canvas = document.getElementById('qrcode');
+    const canvasElement = document.getElementById('qrcode');
     const loading = document.getElementById('loading');
     
     try {
-        // 设置canvas尺寸
-        canvas.width = 300;
-        canvas.height = 300;
+        // 清空canvas
+        const ctx = canvasElement.getContext('2d');
+        ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
         
-        // 创建一个临时容器用于生成二维码
-        const tempDiv = document.createElement('div');
-        tempDiv.style.display = 'none';
-        document.body.appendChild(tempDiv);
+        // 设置canvas尺寸
+        canvasElement.width = 300;
+        canvasElement.height = 300;
+        
+        // 直接在canvas上生成二维码
+        // 由于davidshimjs的qrcode.js库会自动创建canvas,我们需要先创建一个临时容器
+        const tempContainer = document.createElement('div');
+        tempContainer.style.position = 'absolute';
+        tempContainer.style.left = '-9999px';
+        document.body.appendChild(tempContainer);
         
         // 使用QRCode库生成二维码
-        const qr = new QRCode(tempDiv, {
+        const qrcode = new QRCode(tempContainer, {
             text: url,
             width: 300,
             height: 300,
             colorDark: '#1d1d1f',
             colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H  // 高容错率
+            correctLevel: QRCode.CorrectLevel.H  // 高容错率,便于叠加logo
         });
         
-        // 等待二维码生成完成
+        // 等待二维码渲染完成
         setTimeout(async () => {
-            // 获取生成的canvas或img元素
-            const qrCanvas = tempDiv.querySelector('canvas') || tempDiv.querySelector('img');
-            
-            if (qrCanvas) {
-                const ctx = canvas.getContext('2d');
+            try {
+                // 查找生成的canvas或img元素
+                const generatedCanvas = tempContainer.querySelector('canvas');
+                const generatedImg = tempContainer.querySelector('img');
                 
-                // 将生成的二维码绘制到目标canvas
-                if (qrCanvas.tagName === 'CANVAS') {
-                    ctx.drawImage(qrCanvas, 0, 0);
-                } else {
-                    // 如果是img标签,等待加载完成
-                    qrCanvas.onload = async function() {
-                        ctx.drawImage(qrCanvas, 0, 0);
+                if (generatedCanvas) {
+                    // 如果生成了canvas,直接复制到我们的canvas
+                    ctx.drawImage(generatedCanvas, 0, 0, 300, 300);
+                    
+                    // 在二维码中央叠加favicon
+                    await addFaviconToQRCode(canvasElement, faviconUrl);
+                    
+                    // 清理临时容器
+                    document.body.removeChild(tempContainer);
+                    
+                    // 隐藏加载动画
+                    loading.classList.add('hidden');
+                    
+                } else if (generatedImg) {
+                    // 如果生成了图片,等待加载完成
+                    generatedImg.onload = async function() {
+                        ctx.drawImage(generatedImg, 0, 0, 300, 300);
+                        
                         // 在二维码中央叠加favicon
-                        await addFaviconToQRCode(canvas, faviconUrl);
+                        await addFaviconToQRCode(canvasElement, faviconUrl);
+                        
                         // 清理临时容器
-                        document.body.removeChild(tempDiv);
+                        document.body.removeChild(tempContainer);
+                        
                         // 隐藏加载动画
                         loading.classList.add('hidden');
                     };
-                    return;
+                    
+                    generatedImg.onerror = function() {
+                        console.error('二维码图片加载失败');
+                        document.body.removeChild(tempContainer);
+                        loading.classList.add('hidden');
+                        loading.innerHTML = '<p>⚠️ 生成失败</p>';
+                    };
+                } else {
+                    console.error('未找到生成的二维码元素');
+                    document.body.removeChild(tempContainer);
+                    loading.classList.add('hidden');
+                    loading.innerHTML = '<p>⚠️ 生成失败</p>';
                 }
                 
-                // 在二维码中央叠加favicon
-                await addFaviconToQRCode(canvas, faviconUrl);
-                
-                // 清理临时容器
-                document.body.removeChild(tempDiv);
+            } catch (error) {
+                console.error('处理二维码时出错:', error);
+                if (document.body.contains(tempContainer)) {
+                    document.body.removeChild(tempContainer);
+                }
+                loading.classList.add('hidden');
+                loading.innerHTML = '<p>⚠️ 生成失败</p>';
             }
-            
-            // 隐藏加载动画,显示二维码
-            loading.classList.add('hidden');
-        }, 200);
+        }, 300);  // 增加等待时间,确保二维码完全生成
         
     } catch (error) {
         console.error('生成二维码时出错:', error);
