@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页二维码扩展 - 测试页面</title>
+    <link rel="icon" type="image/png" href="icons/icon48.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 32px;
+            color: #1d1d1f;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #86868b;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .feature {
+            background: #f5f5f7;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .feature h2 {
+            font-size: 20px;
+            color: #1d1d1f;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .feature p {
+            font-size: 14px;
+            color: #86868b;
+            line-height: 1.6;
+        }
+        
+        .icon {
+            width: 24px;
+            height: 24px;
+            background: #007AFF;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .cta {
+            background: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta:hover {
+            background: #0051D5;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 122, 255, 0.4);
+        }
+        
+        .demo-links {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #d2d2d7;
+        }
+        
+        .demo-links h3 {
+            font-size: 18px;
+            color: #1d1d1f;
+            margin-bottom: 16px;
+        }
+        
+        .demo-links a {
+            display: block;
+            color: #007AFF;
+            text-decoration: none;
+            padding: 12px;
+            background: #f5f5f7;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+        
+        .demo-links a:hover {
+            background: #e8e8ed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 网页二维码扩展</h1>
+        <p class="subtitle">恭喜!扩展已成功安装。使用下方按钮测试功能。</p>
+        
+        <div class="feature">
+            <h2><span class="icon">1</span> 生成二维码</h2>
+            <p>点击浏览器工具栏中的"网页二维码"图标,即可为当前网页生成精美的二维码。</p>
+        </div>
+        
+        <div class="feature">
+            <h2><span class="icon">2</span> 扫码访问</h2>
+            <p>使用手机扫描生成的二维码,即可在手机上打开当前网页,非常方便快捷。</p>
+        </div>
+        
+        <div class="feature">
+            <h2><span class="icon">3</span> Favicon显示</h2>
+            <p>二维码中央会自动显示网站的favicon图标,让二维码更加美观和易于识别。</p>
+        </div>
+        
+        <button class="cta" onclick="alert('请点击浏览器右上角的扩展图标(蓝色二维码图标)来测试功能!')">
+            点击查看使用说明
+        </button>
+        
+        <div class="demo-links">
+            <h3>📖 测试链接</h3>
+            <a href="https://www.baidu.com" target="_blank">打开百度 - 测试国内网站</a>
+            <a href="https://www.github.com" target="_blank">打开GitHub - 测试国外网站</a>
+            <a href="https://www.apple.com" target="_blank">打开Apple - 查看精美favicon</a>
+        </div>
+    </div>
+    
+    <script>
+        // 页面加载完成后显示提示
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                console.log('%c🎨 网页二维码扩展已就绪!', 'font-size: 20px; color: #007AFF; font-weight: bold;');
+                console.log('%c点击浏览器工具栏中的扩展图标即可使用', 'font-size: 14px; color: #86868b;');
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+

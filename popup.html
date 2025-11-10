@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网页二维码</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部标题 -->
+        <div class="header">
+            <h1 class="title">网页二维码</h1>
+            <p class="subtitle">扫码即可访问</p>
+        </div>
+
+        <!-- 二维码显示区域 -->
+        <div class="qrcode-wrapper">
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>生成中...</p>
+            </div>
+            <canvas id="qrcode" class="qrcode-canvas"></canvas>
+        </div>
+
+        <!-- 网站信息区域 -->
+        <div class="website-info">
+            <h2 id="website-title" class="website-title">加载中...</h2>
+            <p id="website-url" class="website-url">www.example.com</p>
+        </div>
+
+        <!-- 底部操作按钮 -->
+        <div class="actions">
+            <button id="download-btn" class="btn btn-primary">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                下载二维码
+            </button>
+        </div>
+
+        <!-- 底部版权信息 -->
+        <div class="footer">
+            <p class="footer-text">简单、优雅、实用</p>
+        </div>
+    </div>
+
+    <!-- 引入二维码生成库 -->
+    <script src="lib/qrcode.min.js"></script>
+    <!-- 引入主逻辑 -->
+    <script src="popup.js"></script>
+</body>
+</html>
+
