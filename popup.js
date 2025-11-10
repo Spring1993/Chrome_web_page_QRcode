@@ -76,8 +76,12 @@ async function generateQRCode(url, faviconUrl) {
         // 直接在canvas上生成二维码
         // 由于davidshimjs的qrcode.js库会自动创建canvas,我们需要先创建一个临时容器
         const tempContainer = document.createElement('div');
-        tempContainer.style.position = 'absolute';
+        tempContainer.style.position = 'fixed';
         tempContainer.style.left = '-9999px';
+        tempContainer.style.top = '-9999px';
+        tempContainer.style.visibility = 'hidden';
+        tempContainer.style.pointerEvents = 'none';
+        tempContainer.style.zIndex = '-1';
         document.body.appendChild(tempContainer);
         
         // 使用QRCode库生成二维码
