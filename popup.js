@@ -76,12 +76,18 @@ async function generateQRCode(url, faviconUrl) {
         // 直接在canvas上生成二维码
         // 由于davidshimjs的qrcode.js库会自动创建canvas,我们需要先创建一个临时容器
         const tempContainer = document.createElement('div');
-        tempContainer.style.position = 'fixed';
-        tempContainer.style.left = '-9999px';
-        tempContainer.style.top = '-9999px';
-        tempContainer.style.visibility = 'hidden';
-        tempContainer.style.pointerEvents = 'none';
-        tempContainer.style.zIndex = '-1';
+        tempContainer.style.cssText = `
+            position: fixed !important;
+            left: -99999px !important;
+            top: -99999px !important;
+            width: 1px !important;
+            height: 1px !important;
+            overflow: hidden !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            z-index: -9999 !important;
+            opacity: 0 !important;
+        `;
         document.body.appendChild(tempContainer);
         
         // 使用QRCode库生成二维码
@@ -131,8 +137,11 @@ async function generateQRCode(url, faviconUrl) {
                         document.body.removeChild(tempContainer);
                     }
                     
-                    // 隐藏加载动画
-                    loading.classList.add('hidden');
+                    // 显示二维码并隐藏加载动画
+                    canvasElement.classList.add('loaded');
+                    setTimeout(() => {
+                        loading.classList.add('hidden');
+                    }, 100);
                     console.log('二维码生成成功');
                     
                 } else if (generatedImg) {
@@ -152,8 +161,11 @@ async function generateQRCode(url, faviconUrl) {
                             document.body.removeChild(tempContainer);
                         }
                         
-                        // 隐藏加载动画
-                        loading.classList.add('hidden');
+                        // 显示二维码并隐藏加载动画
+                        canvasElement.classList.add('loaded');
+                        setTimeout(() => {
+                            loading.classList.add('hidden');
+                        }, 100);
                         console.log('二维码生成成功');
                     };
                     

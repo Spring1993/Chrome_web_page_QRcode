@@ -95,35 +95,40 @@ body {
 }
 
 .qrcode-canvas {
+    position: absolute;
     max-width: 100%;
     max-height: 100%;
     border-radius: var(--radius-md);
     opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
+    transition: opacity 0.3s ease;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+.qrcode-canvas.loaded {
+    opacity: 1;
 }
 
 /* ==================== 加载动画 ==================== */
 .loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing-sm);
     color: var(--text-secondary);
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    z-index: 10;
+    transition: opacity 0.3s ease;
 }
 
 .loading.hidden {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .spinner {
